@@ -8,20 +8,24 @@ namespace CalculatorService.Controllers
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculator _calculator;
+        private readonly ILogger<CalculatorController> _logger;
 
-        public CalculatorController(ICalculator calculator)
+        public CalculatorController(ICalculator calculator, ILogger<CalculatorController> logger)
         {
             _calculator = calculator;
+            _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Calculate(double value1, string operation, double value2)
         {
+            throw new NotImplementedException();
+
             bool parameterError = false;
             List<string> ErrorMessages = new List<string>();
 
 
-            if (!double.TryParse(value1.ToString() ,  out _))
+            if (!double.TryParse(value1.ToString(), out _))
             {
                 parameterError = true;
                 ErrorMessages.Add("The first value was not in the correct format. The value must be a number.");
@@ -54,6 +58,7 @@ namespace CalculatorService.Controllers
             var result = await _calculator.Calculate(value1, operation, value2);
 
             return Ok(result);
+
         }
 
     }
