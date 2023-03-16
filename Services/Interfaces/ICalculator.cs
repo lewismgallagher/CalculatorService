@@ -8,6 +8,6 @@ namespace Services.Interfaces
 {
     public interface ICalculator
     {
-        public Task<double> Calculate(double value1, string operation, double value2);
+        public Task<double> Calculate(string value1, string operation, string value2);
     }
 }

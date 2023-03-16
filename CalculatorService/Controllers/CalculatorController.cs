@@ -9,12 +9,11 @@ namespace CalculatorService.Controllers
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculator _calculator;
-        private readonly ILogger<CalculatorController> _logger;
+        //private readonly ILogger<CalculatorController> _logger;
 
-        public CalculatorController(ICalculator calculator, ILogger<CalculatorController> logger)
+        public CalculatorController(ICalculator calculator)
         {
             _calculator = calculator;
-            _logger = logger;
         }
 
         [HttpPost]
@@ -23,7 +22,7 @@ namespace CalculatorService.Controllers
             try
             {
 
-                var result = await _calculator.Calculate(2, calculation.Operation, 2);
+                var result = await _calculator.Calculate(calculation.Value1, calculation.Operation, calculation.Value2);
 
                 return Ok(result);
             }

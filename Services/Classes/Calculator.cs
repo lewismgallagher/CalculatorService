@@ -14,21 +14,33 @@ namespace Services.Classes
 
 
 
-        public async Task<double> Calculate(double value1, string operation, double value2)
+        public async Task<double> Calculate(string value1, string operation, string value2)
         {
-            var userResponse = await _httpClient.GetAsync("https://example.com");
-            double result = 0;
-            switch (operation)
+
+            try
             {
-                case "+": result = value1 + value2; break;
-                case "-": result = value1 - value2; break;
-                case "*": result = value1 * value2; break;
-                case "/": result = value1 / value2; break;
-                default: 
-                    break;
+                var userResponse = await _httpClient.GetAsync("https://example.com");
+                string expression = value1 + operation + value2;
+
+                DataTable dt = new DataTable();
+
+                var rawResult = dt.Compute(expression, "");
+
+                double result = double.Parse(rawResult.ToString());
+
+                if (result == double.NegativeInfinity || result == double.NegativeInfinity)
+                {
+                    throw new DivideByZeroException("Syntax Error, Cannot Divide by 0 ");
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
-            return result;
+
         }
 
     }

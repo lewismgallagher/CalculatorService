@@ -16,8 +16,8 @@ namespace CalculatorUnitTests.Systems.Controllers
     public class TestCalculatorController
     {
         [Theory]
-        [InlineData(10, "+", 5)]
-        public async Task CalculateOnSuccessReturnsStatusCode200(double value1, string operation, double value2)
+        [InlineData("10", "+", "10")]
+        public async Task CalculateOnSuccessReturnsStatusCode200(string value1, string operation, string value2)
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
