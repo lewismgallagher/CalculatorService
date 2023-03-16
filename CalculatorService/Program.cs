@@ -1,6 +1,8 @@
 using CalculatorAPI.MiddleWare;
+using FluentValidation.AspNetCore;
 using Services.Classes;
 using Services.Interfaces;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -8,7 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddTransient<ICalculator, Calculator>();
     builder.Services.AddHttpClient<ICalculator, Calculator>();
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddFluentValidation(fv =>
+    {
+        fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        fv.DisableDataAnnotationsValidation = true;
+    });
     builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
     builder.Services.AddEndpointsApiExplorer();
