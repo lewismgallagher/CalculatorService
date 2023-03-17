@@ -1,4 +1,6 @@
-﻿using CalculatorService.Controllers;
+﻿using CalculatorAPI.Dtos;
+using CalculatorService.Controllers;
+using CalculatorUnitTests.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -15,61 +17,31 @@ namespace CalculatorUnitTests.Systems.Controllers
 {
     public class TestCalculatorController
     {
-        [Theory]
-        [InlineData("10", "+", "10")]
-        public async Task CalculateOnSuccessReturnsStatusCode200(string value1, string operation, string value2)
+        [Fact]
+        public async Task CalculateOnSuccessReturnsStatusCode200()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
-            mockCalculatorService
-            .Setup(service => service.Calculate(value1, operation, value2))
-            .ReturnsAsync(12);
-
             var sut = new CalculatorController(mockCalculatorService.Object);
 
             // Act
 
-            var result = (OkObjectResult)await sut.Calculate(value1,operation,value2);
+            var result = (OkObjectResult)await sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
 
             // Assert
 
             result.StatusCode.Should().Be(200);
         }
 
-        [Theory]
-        [InlineData(10, "+", 5)]
-        public async Task CalculateOnSuccessInvokeCalcServiceOnce(double value1, string operation, double value2)
+        [Fact]
+        public async Task CalculateOnSuccessReturnsDouble()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
-            mockCalculatorService
-            .Setup(service => service.Calculate(value1, operation, value2))
-            .ReturnsAsync(12);
-
             var sut = new CalculatorController(mockCalculatorService.Object);
 
             // Act
-            var result = await sut.Calculate(value1, operation, value2);
-
-            //Assert
-            mockCalculatorService.Verify(
-                service => service.Calculate(value1, operation, value2), Times.Once());
-        }
-
-        [Theory]
-        [InlineData(10, "+", 5)]
-        public async Task CalculateOnSuccessReturnsDouble(double value1, string operation, double value2)
-        {
-            // Arrange
-            var mockCalculatorService = new Mock<ICalculator>();
-            mockCalculatorService
-            .Setup(service => service.Calculate(value1, operation, value2))
-            .ReturnsAsync(12);
-
-            var sut = new CalculatorController(mockCalculatorService.Object);
-
-            // Act
-            var result = await sut.Calculate(value1, operation, value2);
+            var result = await sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
 
             //Assert
             result.Should().BeOfType <OkObjectResult>();
@@ -77,25 +49,35 @@ namespace CalculatorUnitTests.Systems.Controllers
             objectResult.Value.Should().BeOfType<double>();
         }
 
-        // to do add if bad request
         [Fact]
-        public async Task CalculateOnFailureReturns400Response()
+        public async Task CalculateResultNotAsDoubleProducesBadRequest()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
-            mockCalculatorService
-            .Setup(service => service.Calculate(1, "", 6))
-            .ReturnsAsync(12);
-
             var sut = new CalculatorController(mockCalculatorService.Object);
 
             // Act
-            var result = await sut.Calculate(1, "", 6);
+            var result = await sut.Calculate(FailureCalculationDtoFixture.GetIncorrectParametersCalculationDto());
+
+            //Assert
+            var objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().NotBeOfType<double>();
+            result.Should().BeOfType<BadRequestObjectResult>();
+
+        }
+
+        [Fact]
+        public async Task CalculateOnFailureWithinControllerReturns400Response()
+        {
+            // Arrange
+            var mockCalculatorService = new Mock<ICalculator>();
+            var sut = new CalculatorController(mockCalculatorService.Object);
+
+            // Act
+            var result = await sut.Calculate(null);
 
             //Assert
             result.Should().BeOfType<BadRequestObjectResult>();
-            var objectResult = (BadRequestObjectResult)result;
-            objectResult.Value.Should().BeOfType<List<string>>();
         }
 
     }

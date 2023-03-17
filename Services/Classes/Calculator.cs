@@ -1,4 +1,4 @@
-using Services.Interfaces;
+﻿using Services.Interfaces;
 using System.Data;
 
 namespace Services.Classes
@@ -28,7 +28,7 @@ namespace Services.Classes
 
                 double result = double.Parse(rawResult.ToString());
 
-                if (result == double.NegativeInfinity || result == double.NegativeInfinity)
+                if (result.ToString() == "∞")
                 {
                     throw new DivideByZeroException("Syntax Error, Cannot Divide by 0 ");
                 }

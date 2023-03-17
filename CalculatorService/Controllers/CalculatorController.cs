@@ -21,8 +21,9 @@ namespace CalculatorService.Controllers
         {
             try
             {
-
                 var result = await _calculator.Calculate(calculation.Value1, calculation.Operation, calculation.Value2);
+
+                if(!double.TryParse(result.ToString() ,out _)) { return BadRequest("Syntax Error."); }
 
                 return Ok(result);
             }
