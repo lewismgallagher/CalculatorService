@@ -31,7 +31,7 @@ namespace CalculatorAPI.MiddleWare
                     Status = (int)HttpStatusCode.InternalServerError,
                     Type = "Internal Server Error",
                     Title = "Internal Server Error",
-                    Detail = "An Internal Server Error Occured"
+                    Detail = "An Internal Server Error Occured/n" + ex.Message
                 };
 
                 string json = JsonSerializer.Serialize(problemDetails);

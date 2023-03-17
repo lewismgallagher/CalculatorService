@@ -5,13 +5,6 @@ namespace Services.Classes
 {
     public class Calculator : ICalculator
     {
-
-        public void ValidateParameters(string value1, string operation, string value2)
-        {
-
-        }
-
-
         public double Calculate(string value1, string operation, string value2)
         {
             try
