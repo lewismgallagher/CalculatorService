@@ -9,7 +9,6 @@ namespace CalculatorService.Controllers
     public class CalculatorController : ControllerBase
     {
         private readonly ICalculator _calculator;
-        //private readonly ILogger<CalculatorController> _logger;
 
         public CalculatorController(ICalculator calculator)
         {
