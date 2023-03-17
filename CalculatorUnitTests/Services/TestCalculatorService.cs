@@ -16,96 +16,59 @@ namespace CalculatorUnitTests.Systems.Services
     public class TestCalculatorService
     {
 
-        //[Theory]
-        //[InlineData(10,"+",5)]
-        //[InlineData(-5,"+",-5)]
-        //[InlineData(double.MaxValue,"+",double.MaxValue)]
-        //[InlineData(double.MinValue,"+",-100)]
-        //public async Task CheckCalculateMethodCanAdd(double value1, string operation, double value2)
-        //{
-        //    //Arrange
-        //    var expectedResponse = AddCalculationFixture.AddCalculation();
-        //    var handlerMock = MockHTTPMessageHandler.SetupBasicGetResourceList(expectedResponse);
-        //    var httpClient = new HttpClient(handlerMock.Object);
-        //    var sut = new Calculator(httpClient);
+        [Fact]
+        public void AddCalculation()
+        {
+            //Arrange
+            var sut = new Calculator();
 
-        //    //Act
-        //    await sut.Calculate(value1,operation,value2);
-
-        //    //Assert
-
-        //    handlerMock.Protected().Verify("SendAsync", Times.Exactly(1),
-        //         ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
-        //         ItExpr.IsAny<CancellationToken>());
-        //    //Verify Http Request Was Made
-        //}
-
-        //[Theory]
-        //[InlineData(10, "+", 5)]
-        //[InlineData(-5, "+", -5)]
-        //[InlineData(double.MaxValue, "+", double.MaxValue)]
-        //[InlineData(double.MinValue, "+", -100)]
-        //public async Task CalculateWhenCalledInvokesHTTPGetRequest(double value1, string operation, double value2)
-        //{
-        //    //Arrange
-        //    var expectedResponse = AddCalculationFixture.AddCalculation();
-        //    var handlerMock = MockHTTPMessageHandler.SetupBasicGetResourceList(expectedResponse);
-        //    var httpClient = new HttpClient(handlerMock.Object);
-        //    var sut = new Calculator(httpClient);
-
-        //    //Act
-        //    await sut.Calculate(value1, operation, value2);
-
-        //    //Assert
-
-        //    handlerMock.Protected().Verify("SendAsync", Times.Exactly(1),
-        //         ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
-        //         ItExpr.IsAny<CancellationToken>());
-        //    //Verify Http Request Was Made
-        //}
-
-        //[Theory]
-        //[InlineData(10, "+", 5)]
-        //[InlineData(-5, "+", -5)]
-        //[InlineData(double.MaxValue, "+", double.MaxValue)]
-        //[InlineData(double.MinValue, "+", -100)]
-        //public async Task CalculateReturnsTypeOfDouble(double value1, string operation, double value2)
-        //{
-        //    //Arrange
-        //    var expectedResponse = AddCalculationFixture.AddCalculation();
-        //    var handlerMock = MockHTTPMessageHandler.SetupBasicGetResourceList(expectedResponse);
-        //    var httpClient = new HttpClient(handlerMock.Object);
-        //    var sut = new Calculator(httpClient);
-
-        //    //Act
-        //   var result = await sut.Calculate(value1,operation,value2);
-
-        //    //Assert
-
-        //    result.Should().BeOfType(typeof(double));
+            //Act
+            var result = sut.Calculate("1", "+", "1");
+            //Assert
             
-        //}
+            result.Should().Be(2);
 
-        //[Theory]
-        //[InlineData(10, "+", 5)]
-        //[InlineData(-5, "+", -5)]
-        //[InlineData(double.MaxValue, "+", double.MaxValue)]
-        //[InlineData(double.MinValue, "+", -100)]
-        //public async Task CalculateOnFailureReturnss400Response(double value1, string operation, double value2)
-        //{
-        //    //Arrange
-        //    var expectedResponse = AddCalculationFixture.AddCalculation();
-        //    var handlerMock = MockHTTPMessageHandler.SetupBasicGetResourceList(expectedResponse);
-        //    var httpClient = new HttpClient(handlerMock.Object);
-        //    var sut = new Calculator(httpClient);
+        }
 
-        //    //Act
-        //    var result = await sut.Calculate(value1,operation,value2);
+        [Fact]
+        public void SubtractCalculation()
+        {
+            //Arrange
+            var sut = new Calculator();
 
-        //    //Assert
+            //Act
+            var result = sut.Calculate("2", "-", "1");
+            //Assert
 
-        //    result.Should().BeOfType(typeof(double));
+            result.Should().Be(1);
 
-        //}
+        }
+        [Fact]
+        public void MultiplyCalculation()
+        {
+            //Arrange
+            var sut = new Calculator();
+
+            //Act
+            var result = sut.Calculate("2", "*", "2");
+            //Assert
+
+            result.Should().Be(4);
+
+        }
+
+        [Fact]
+        public void DivideCalculation()
+        {
+            //Arrange
+            var sut = new Calculator();
+
+            //Act
+            var result = sut.Calculate("4", "/", "2");
+            //Assert
+
+            result.Should().Be(2);
+
+        }
     }
 }

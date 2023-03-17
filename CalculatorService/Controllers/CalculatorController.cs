@@ -17,13 +17,11 @@ namespace CalculatorService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Calculate(CalculationDto calculation)
+        public IActionResult Calculate(CalculationDto calculation)
         {
             try
             {
-                var result = await _calculator.Calculate(calculation.Value1, calculation.Operation, calculation.Value2);
-
-                if(!double.TryParse(result.ToString() ,out _)) { return BadRequest("Syntax Error."); }
+                var result =  _calculator.Calculate(calculation.Value1, calculation.Operation, calculation.Value2);
 
                 return Ok(result);
             }

@@ -18,7 +18,7 @@ namespace CalculatorUnitTests.Systems.Controllers
     public class TestCalculatorController
     {
         [Fact]
-        public async Task CalculateOnSuccessReturnsStatusCode200()
+        public void CalculateOnSuccessReturnsStatusCode200()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
@@ -26,7 +26,7 @@ namespace CalculatorUnitTests.Systems.Controllers
 
             // Act
 
-            var result = (OkObjectResult)await sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
+            var result = (OkObjectResult) sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
 
             // Assert
 
@@ -34,14 +34,14 @@ namespace CalculatorUnitTests.Systems.Controllers
         }
 
         [Fact]
-        public async Task CalculateOnSuccessReturnsDouble()
+        public void CalculateOnSuccessReturnsDouble()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
             var sut = new CalculatorController(mockCalculatorService.Object);
 
             // Act
-            var result = await sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
+            var result =  sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
 
             //Assert
             result.Should().BeOfType <OkObjectResult>();
@@ -50,31 +50,15 @@ namespace CalculatorUnitTests.Systems.Controllers
         }
 
         [Fact]
-        public async Task CalculateResultNotAsDoubleProducesBadRequest()
+        public void CalculateOnFailureWithinControllerReturns400Response()
         {
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
             var sut = new CalculatorController(mockCalculatorService.Object);
 
             // Act
-            var result = await sut.Calculate(FailureCalculationDtoFixture.GetIncorrectParametersCalculationDto());
-
-            //Assert
-            var objectResult = (OkObjectResult)result;
-            objectResult.Value.Should().NotBeOfType<double>();
-            result.Should().BeOfType<BadRequestObjectResult>();
-
-        }
-
-        [Fact]
-        public async Task CalculateOnFailureWithinControllerReturns400Response()
-        {
-            // Arrange
-            var mockCalculatorService = new Mock<ICalculator>();
-            var sut = new CalculatorController(mockCalculatorService.Object);
-
-            // Act
-            var result = await sut.Calculate(null);
+            
+            var result =  sut.Calculate(null);
 
             //Assert
             result.Should().BeOfType<BadRequestObjectResult>();
