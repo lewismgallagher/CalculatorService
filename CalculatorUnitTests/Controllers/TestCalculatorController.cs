@@ -1,6 +1,5 @@
 ﻿using CalculatorAPI.Dtos;
 using CalculatorService.Controllers;
-using CalculatorUnitTests.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -26,7 +25,7 @@ namespace CalculatorUnitTests.Systems.Controllers
 
             // Act
 
-            var result = (OkObjectResult) sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
+            var result = (OkObjectResult) sut.Calculate(new CalculationDto("1", "+", "1"));
 
             // Assert
 
@@ -39,9 +38,8 @@ namespace CalculatorUnitTests.Systems.Controllers
             // Arrange
             var mockCalculatorService = new Mock<ICalculator>();
             var sut = new CalculatorController(mockCalculatorService.Object);
-
             // Act
-            var result =  sut.Calculate(SuccessfulDtoCalculationsFixture.GetAddCalculationDto());
+            var result = sut.Calculate(new CalculationDto("1","+","1"));
 
             //Assert
             result.Should().BeOfType <OkObjectResult>();

@@ -9,5 +9,6 @@ namespace Services.Interfaces
     public interface ICalculator
     {
         public double Calculate(string value1, string operation, string value2);
+        public void ValidateParameters(string value1, string operation, string value2);
     }
 }
